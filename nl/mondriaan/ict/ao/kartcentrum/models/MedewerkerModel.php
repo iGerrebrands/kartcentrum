@@ -133,32 +133,32 @@ class MedewerkerModel {
         }
         return REQUEST_NOTHING_CHANGED;
     }
-    
+
     public function addActiviteit()
     {
         $datum= filter_input(INPUT_POST, 'datum');
         $tijd= filter_input(INPUT_POST, 'tijd');
         $prijs=filter_input(INPUT_POST, 'prijs');
         $soort=filter_input(INPUT_POST, 'soort');
-        
-        
-     
+
+
+
         if($datum===null || $tijd===null || $soort===null )
         {
             return REQUEST_FAILURE_DATA_INCOMPLETE;
         }
-        
-      
+
+
         //workaround, str_to_date moet,naast tijd, ook een datum hebben
-        $tijd='10-10-2000 '.$tijd;  
+        $tijd='10-10-2000 '.$tijd;
         $sql="INSERT INTO `activiteiten` ( datum,tijd, soort_id
-            )VALUES (STR_TO_DATE(:datum,'%d-%m-%Y'),STR_TO_DATE(:tijd,'%d-%m-%Y %H:%i'),:soort)"; 
-        
+            )VALUES (STR_TO_DATE(:datum,'%d-%m-%Y'),STR_TO_DATE(:tijd,'%d-%m-%Y %H:%i'),:soort)";
+
         $stmnt = $this->db->prepare($sql);
         $stmnt->bindParam(':datum', $datum);
         $stmnt->bindParam(':tijd', $tijd);
         $stmnt->bindParam(':soort', $soort);
-        
+
         try
         {
             $stmnt->execute();
@@ -168,14 +168,54 @@ class MedewerkerModel {
              echo $e;
             return REQUEST_FAILURE_DATA_INVALID;
         }
-        
+
         if($stmnt->rowCount()===1)
-        {            
+        {
             return REQUEST_SUCCESS;
         }
-        return REQUEST_FAILURE_DATA_INVALID; 
+        return REQUEST_FAILURE_DATA_INVALID;
     }
-    
+
+    public function addSoort()
+    {
+        $naam= filter_input(INPUT_POST, 'naam');
+        $min_leeftijd= filter_input(INPUT_POST, 'min_leeftijd');
+        $tijdsduur=filter_input(INPUT_POST, 'tijdsduur');
+        $prijs=filter_input(INPUT_POST, 'prijs');
+
+
+
+        if($naam===null || $min_leeftijd===null || $tijdsduur===null || $prijs===null)
+        {
+            return REQUEST_FAILURE_DATA_INCOMPLETE;
+        }
+
+        $sql="INSERT INTO `soortactiviteiten` ( naam, min_leeftijd, tijdsduur, prijs
+            )VALUES (:naam ,:min_leeftijd, :tijdsduur, :prijs)";
+
+        $stmnt = $this->db->prepare($sql);
+        $stmnt->bindParam(':naam', $naam);
+        $stmnt->bindParam(':min_leeftijd', $min_leeftijd);
+        $stmnt->bindParam(':tijdsduur', $tijdsduur);
+        $stmnt->bindParam(':prijs', $prijs);
+
+        try
+        {
+            $stmnt->execute();
+        }
+        catch(\PDOEXception $e)
+        {
+            echo $e;
+            return REQUEST_FAILURE_DATA_INVALID;
+        }
+
+        if($stmnt->rowCount()===1)
+        {
+            return REQUEST_SUCCESS;
+        }
+        return REQUEST_FAILURE_DATA_INVALID;
+    }
+
     public function updateActiviteit()
     {
         $id= filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);

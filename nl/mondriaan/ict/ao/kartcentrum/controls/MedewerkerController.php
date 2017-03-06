@@ -134,6 +134,36 @@ class MedewerkerController
         $gebruiker = $this->model->getGebruiker();
         $this->view->set('gebruiker',$gebruiker);
     }
+
+    private function addSoortAction()
+    {
+        if($this->model->isPostLeeg())
+        {
+            $this->view->set("boodschap","Vul gegevens in van de nieuwe cursus");
+        }
+        else
+        {
+            $result=$this->model->addSoort();
+            switch($result)
+            {
+                case REQUEST_FAILURE_DATA_INCOMPLETE:
+                    $this->view->set("boodschap", "activiteit is niet toegevoegd. Niet alle vereiste data ingevuld.");
+                    $this->view->set('form_data',$_POST);
+                    break;
+                case REQUEST_FAILURE_DATA_INVALID:
+                    $this->view->set("boodschap", "activiteit is niet toegevoegd. Er is foutieve data ingestuurd.");
+                    $this->view->set('form_data',$_POST);
+                    break;
+                case REQUEST_SUCCESS:
+                    $this->view->set("boodschap", "activiteit is toegevoegd.");
+                    $this->forward("beheer");
+                    break;
+            }
+        }
+
+        $gebruiker = $this->model->getGebruiker();
+        $this->view->set('gebruiker',$gebruiker);
+    }
     
     private function deleteAction()
     {
