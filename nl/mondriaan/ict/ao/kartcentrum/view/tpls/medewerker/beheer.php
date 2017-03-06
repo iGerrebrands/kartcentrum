@@ -38,6 +38,41 @@ include 'includes/menu.php';?>
                 </tr>
             </tbody>
         </table>
+        <table>
+            <caption>Dit zijn alle soorten activiteiten</caption>
+            <thead>
+                <tr>
+                    <td>Naam</td>
+                    <td>Min leeftijd</td>
+                    <td>Tijdsduur</td>
+                    <td>Prijs</td>
+                    <td colspan="2">acties</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($soortActiviteiten as $soort): ?>
+                <tr>
+                    <td><?= $soort->getNaam();?></td>
+                    <td><?= $soort->getMin_leeftijd();?></td>
+                    <td><?= $soort->getTijdsduur();?></td>
+                    <td><?= $soort->getPrijs();?></td>
+
+                    <td title="bewerk de gegevens van deze soort"><a href='?control=medewerker&action=updateSoort&id=<?= $soort->getId();?>'><img src="img/bewerk.png"></a></td>
+                    <td title="verwijder deze soort is definitief"><a href='?control=medewerker&action=deleteSoort&id=<?= $soort->getId();?>'><img src="img/verwijder.png"></a></td>
+                </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td>
+                        <a href='?control=medewerker&action=addSoort'>
+                            <figure>
+                                <img src="img/toevoegen.png" alt='voeg een soort toe' title='voeg een soort toe' />
+                            </figure>
+                        </a>
+                    </td>
+                    <td colspan='8'>Voeg een soort toe</td>
+                </tr>
+            </tbody>
+        </table>
         <br />
     </section>
 <?php include 'includes/footer.php';

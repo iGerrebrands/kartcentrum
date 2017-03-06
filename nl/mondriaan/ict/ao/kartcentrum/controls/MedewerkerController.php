@@ -98,7 +98,9 @@ class MedewerkerController
         
         $activiteiten = $this->model->getActiviteiten();
         $this->view->set('activiteiten', $activiteiten);
-       
+
+        $soortActiviteiten = $this->model->getSoortActiviteiten();
+        $this->view->set('soortActiviteiten', $soortActiviteiten);
     }
     
     private function addAction()
@@ -112,7 +114,6 @@ class MedewerkerController
             $result=$this->model->addActiviteit();
             switch($result)
             {
-               
                 case REQUEST_FAILURE_DATA_INCOMPLETE:
                     $this->view->set("boodschap", "activiteit is niet toegevoegd. Niet alle vereiste data ingevuld.");  
                     $this->view->set('form_data',$_POST);
@@ -155,7 +156,7 @@ class MedewerkerController
         $this->forward('beheer');
     }
     
-     private function updateAction()
+    private function updateAction()
     {   
         $activiteit=$this->model->getActiviteit(); 
         $this->view->set('activiteit',$activiteit);
