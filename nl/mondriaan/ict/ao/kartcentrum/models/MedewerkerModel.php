@@ -69,6 +69,31 @@ class MedewerkerModel {
        $activiteiten = $stmnt->fetchAll(\PDO::FETCH_CLASS,__NAMESPACE__.'\db\Activiteit');    
        return $activiteiten[0];
     }
+
+    public function getSoortActiviteit(){
+        $id= filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);
+
+        if($id===null)
+        {
+            return REQUEST_FAILURE_DATA_INCOMPLETE;
+        }
+        if($id===false)
+        {
+            return REQUEST_FAILURE_DATA_INVALID;
+        }
+
+
+        $sql='SELECT *
+           FROM `soortactiviteiten`
+            WHERE `id`=:id';
+
+
+        $stmnt = $this->db->prepare($sql);
+        $stmnt->bindParam(':id',$id );
+        $stmnt->execute();
+        $soorten = $stmnt->fetchAll(\PDO::FETCH_CLASS,__NAMESPACE__.'\db\Soortactiviteit');
+        return $soorten[0];
+    }
     
     public function getDeelnemers()
     {
@@ -257,6 +282,53 @@ class MedewerkerModel {
             return REQUEST_FAILURE_DATA_INVALID;
         }
         
+        $aantalGewijzigd = $stmnt->rowCount();
+        if($aantalGewijzigd===1)
+        {
+            return REQUEST_SUCCESS;
+        }
+        return REQUEST_NOTHING_CHANGED;
+    }
+
+    public function updateSoort()
+    {
+        $id= filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT);
+        $naam= filter_input(INPUT_POST, 'naam');
+        $min_leeftijd= filter_input(INPUT_POST, 'min_leeftijd');
+        $tijdsduur=filter_input(INPUT_POST, 'tijdsduur');
+        $prijs=filter_input(INPUT_POST, 'prijs');
+
+        if($naam===null || $min_leeftijd===null || $tijdsduur===null || $id==null || $prijs==null)
+        {
+            return REQUEST_FAILURE_DATA_INCOMPLETE;
+        }
+
+        if($id===false)
+        {
+            return REQUEST_FAILURE_DATA_INVALID;
+        }
+
+        $sql="UPDATE `soortactiviteiten` SET :naam, :min_leeftijd, :tijdsduur, :prijs"
+            . " WHERE `id`=:id; ";
+
+
+        $stmnt = $this->db->prepare($sql);
+        $stmnt->bindParam(':id', $id);
+        $stmnt->bindParam(':naam', $naam);
+        $stmnt->bindParam(':min_leeftijd', $min_leeftijd);
+        $stmnt->bindParam(':tijdduur', $tijdsduur);
+        $stmnt->bindParam(':prijs', $prijs);
+
+        try
+        {
+            $stmnt->execute();
+        }
+        catch(\PDOEXception $e)
+        {
+            echo $e;
+            return REQUEST_FAILURE_DATA_INVALID;
+        }
+
         $aantalGewijzigd = $stmnt->rowCount();
         if($aantalGewijzigd===1)
         {

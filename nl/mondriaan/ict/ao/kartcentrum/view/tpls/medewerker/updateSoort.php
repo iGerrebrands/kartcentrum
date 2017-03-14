@@ -1,56 +1,43 @@
-<?php 
+<?php
 include 'includes/header.php';
 include 'includes/menu.php';?>
-        <section >
-            <form  method="post" >
-                
-                <table>
-                    <caption>Aanpassen van een bestaande cursus</caption>
-                    <tr>
-                        <td>datum:</td>
-                        <td>
-                            <input type="text" class="js-datepicker" placeholder="kies verplicht een startdatum" name="datum" required="required" value="<?= !empty($activiteit->getDatum())?$activiteit->getDatum():'';?>">
-                        </td>
-                    </tr>
-                    <tr >
-                        <td>tijd:</td>
-                        <td>
-                            <input type="text" class="js-timepicker" placeholder='kies verplicht een starttijd' name="tijd" required="required" value="<?= !empty($activiteit->getTijd())?$activiteit->getTijd():'';?>" >
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>soort:</td>
-                        <td>
-                            <select name="soort">
-                                 <?php foreach($soorten as $soort)
-                                 {
-                                     if($activiteit->getSoortId()==$soort->getId())
-                                     {
-                                         echo '<option selected value="'.$soort->getId().'"  >'.$soort->getNaam().'</option>';
-                                     }
-                                     else
-                                     {
-                                         echo '<option value="'.$soort->getId().'">'.$soort->getNaam().'</option>';
-                                     }
-                                     
-                                 }
-                                     
-                                ?>
-                            </select>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input type="submit" value="verander">
-                            <input type="reset" value="reset"> 
-                        </td>
-                    </tr>
-                   
-                </table>
-                
-            </form>  
+    <section >
+        <form  method="post">
+            <table>
+                <caption>Aanpassen van een bestaande cursus</caption>
+                <tr>
+                    <td>Naam:</td>
+                    <td>
+                        <input type="text" placeholder="naam" name="naam"  required="required" value="<?= !empty($soort->getNaam())?$soort->getNaam():'';?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Min leeftijd:</td>
+                    <td>
+                        <input type="number" placeholder='0' name="min_leeftijd" required="required" value="<?= !empty($soort->getMin_leeftijd())?$soort->getMin_leeftijd():'';?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tijdsduur (min):</td>
+                    <td>
+                        <input type="number" placeholder='0' name="tijdsduur" required="required" value="<?= !empty($soort->getTijdsduur())?$soort->getTijdsduur():'';?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Prijs:</td>
+                    <td>
+                        <input type="number" placeholder='0' name="prijs" required="required" value="<?= !empty($soort->getPrijs())?$soort->getPrijs():'';?>">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="verander">
+                        <input type="reset" value="reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
         <br >
-        </section>
+    </section>
 <?php include 'includes/footer.php';

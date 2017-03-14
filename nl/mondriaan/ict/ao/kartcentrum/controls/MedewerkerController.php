@@ -223,4 +223,39 @@ class MedewerkerController
             
         }
     }
+
+    private function updateSoortAction()
+    {
+        $soort=$this->model->getSoortActiviteit();
+        $this->view->set('soort',$soort);
+
+        $gebruiker = $this->model->getGebruiker();
+        $this->view->set('gebruiker',$gebruiker);
+
+        if($this->model->isPostLeeg())
+        {
+            $this->view->set("boodschap","Wijzig hier de cursus gegevens");
+        }
+        else
+        {
+            $result = $this->model->updateSoort();
+            switch($result)
+            {
+                case REQUEST_SUCCESS:
+                    $this->view->set('boodschap','wijziging gelukt');
+                    $this->forward('beheer');
+                    break;
+                case REQUEST_FAILURE_DATA_INCOMPLETE:
+                    $this->view->set("boodschap","De gegevens waren incompleet. Vul compleet in!");
+                    break;
+                case REQUEST_NOTHING_CHANGED:
+                    $this->view->set("boodschap","Er was niets te wijzigen");
+                    break;
+                case REQUEST_FAILURE_DATA_INVALID:
+                    $this->view->set("boodschap","Vul een correcte datum/tijd in.");
+                    break;
+            }
+
+        }
+    }
 }

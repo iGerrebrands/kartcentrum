@@ -3,7 +3,7 @@ include 'includes/header.php';
 include 'includes/menu.php';?>
         <section >
             <form  method="post" >
-                
+
                 <table>
                     <caption>Aanpassen van een bestaande cursus</caption>
                     <tr>
@@ -32,25 +32,25 @@ include 'includes/menu.php';?>
                                      {
                                          echo '<option value="'.$soort->getId().'">'.$soort->getNaam().'</option>';
                                      }
-                                     
+
                                  }
-                                     
+
                                 ?>
                             </select>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <td></td>
                         <td>
                             <input type="submit" value="verander">
-                            <input type="reset" value="reset"> 
+                            <input type="reset" value="reset">
                         </td>
                     </tr>
-                   
+
                 </table>
-                
-            </form>  
+
+            </form>
         <br >
         </section>
 <?php include 'includes/footer.php';

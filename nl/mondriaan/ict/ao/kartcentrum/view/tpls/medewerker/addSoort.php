@@ -2,8 +2,7 @@
 include 'includes/header.php';
 include 'includes/menu.php';?>
         <section >
-            <form  method="post"  > 
-                
+            <form  method="post">
                 <table>
                     <caption>Toevoegen van een nieuwe activiteit</caption>
                     <tr>
@@ -37,9 +36,7 @@ include 'includes/menu.php';?>
                             <input type="reset" value="reset"> 
                         </td>
                     </tr>
-                   
                 </table>
-                    
             </form> 
             <br >
         </section>
